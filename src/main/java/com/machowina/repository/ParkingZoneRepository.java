@@ -8,4 +8,5 @@ import com.machowina.model.ParkingZone;
 @Repository
 public interface ParkingZoneRepository extends JpaRepository<ParkingZone, Long> {
 
+	ParkingZone findFirstBy();
 }

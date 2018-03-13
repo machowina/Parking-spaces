@@ -35,7 +35,7 @@ public class ParkingTicket {
 	@JoinColumn
 	private User driver;
 
-	private MonetaryAmount fee;
+	private Long feeInPenniesPLN;
 	
 	private boolean isStopped;
 	private boolean isPaid;

@@ -1,6 +1,5 @@
 package com.machowina.model;
 
-import javax.money.MonetaryAmount;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,9 +23,9 @@ public class ParkingRates {
 	
 	private String driverType;
 	
-	private MonetaryAmount firstHourCost;
+	private Long firstHourCostInPenniesPLN;
 	
-	private MonetaryAmount secondHourCost;
+	private Long secondHourCostInPenniesPLN;
 	
 	private Double nextHourRate;
 }

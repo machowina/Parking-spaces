@@ -1,7 +1,5 @@
 package com.machowina.model;
 
-import java.util.Set;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,6 +18,7 @@ public class Car {
 	private String license;
 	
 	private String name;
+	
 	
 
 }

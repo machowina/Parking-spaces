@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.machowina.model.ParkingTicket;
 
 @Repository
-public interface ParkingTicketRepository extends JpaRepository<ParkingTicket, Long> {
+public interface TicketRepository extends JpaRepository<ParkingTicket, Long> {
 
 }

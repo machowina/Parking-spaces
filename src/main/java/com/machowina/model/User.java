@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -34,8 +35,8 @@ public class User {
 	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
 	private Set<Role> roles;
 	
-	@ManyToOne
-	@JoinColumn
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "driver_id")
 	private Set<Car> cars;
 	
 	private String driverType;
