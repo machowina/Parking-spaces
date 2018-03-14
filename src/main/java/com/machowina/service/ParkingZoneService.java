@@ -7,6 +7,6 @@ public interface ParkingZoneService {
 	
 	ParkingZone findDeafultZone();
 
-	ParkingZone findOne(Long parkingZoneId);
+	ParkingZone findOne (Long parkingZoneId);
 
 }

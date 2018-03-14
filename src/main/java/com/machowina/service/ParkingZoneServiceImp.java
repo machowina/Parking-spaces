@@ -3,6 +3,7 @@ package com.machowina.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.machowina.exception.EntityNotFoundException;
 import com.machowina.model.ParkingZone;
 import com.machowina.repository.ParkingZoneRepository;
 
@@ -21,12 +22,23 @@ public class ParkingZoneServiceImp implements ParkingZoneService {
 
 	@Override
 	public ParkingZone findDeafultZone() {
-		return zoneRepository.findFirstBy();
+		ParkingZone defaultZone = zoneRepository.findFirstBy();
+		if (defaultZone == null) {
+			throw new EntityNotFoundException("There is no parking zone available");
+		} else {
+			return defaultZone;
+		}
 	}
 
 	@Override
 	public ParkingZone findOne(Long parkingZoneId) {
-		return zoneRepository.findOne(parkingZoneId);
+		ParkingZone parkingZone = zoneRepository.findOne(parkingZoneId);
+		
+		if (parkingZone == null) {
+			throw new EntityNotFoundException("There is no parking zone with this id");
+		} else {
+			return parkingZone;
+		}
 	}
 
 }

@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
@@ -25,14 +26,17 @@ public class ParkingTicket {
 	
 	@ManyToOne
 	@JoinColumn
+	@NotNull
 	private ParkingZone parkingZone;
 	
 	@ManyToOne
 	@JoinColumn
+	@NotNull
 	private Car car;
 	
 	@ManyToOne
 	@JoinColumn
+	@NotNull
 	private User driver;
 
 	private Long feeInPenniesPLN;

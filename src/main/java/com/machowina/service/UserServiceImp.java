@@ -2,6 +2,8 @@ package com.machowina.service;
 
 import org.springframework.stereotype.Service;
 
+import com.machowina.exception.EntityNotFoundException;
+import com.machowina.model.Car;
 import com.machowina.model.User;
 import com.machowina.repository.UserRepository;
 
@@ -18,7 +20,12 @@ public class UserServiceImp implements UserService {
 
 	@Override
 	public User findUserForCar(Long carId) {
-		return userRepository.findOneByCarsId(carId);
+		User driver = userRepository.findOneByCarsId(carId);
+		if (driver == null) {
+			throw new EntityNotFoundException("There is no user owning this car");
+		} else {
+			return driver;
+		}
 	}
 
 }

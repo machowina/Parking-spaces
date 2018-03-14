@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.machowina.exception.EntityNotFoundException;
 import com.machowina.model.ParkingTicket;
 import com.machowina.service.TicketService;
 
@@ -25,7 +26,7 @@ public class DriverController {
 
 
 	@PostMapping("/{carId}")
-	ResponseEntity createClient(@PathVariable Long carId) {
+	ResponseEntity generateTicket(@PathVariable Long carId) {
 		
 		ParkingTicket ticket = ticketService.generateTicketDefaultZone(carId);
 		Long id = ticketService.saveTicket(ticket);
