@@ -7,6 +7,7 @@ import com.machowina.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+	
 	User findOneByCarsId(Long carId);
 
 }

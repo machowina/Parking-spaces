@@ -7,6 +7,7 @@ import com.machowina.model.ParkingTicket;
 
 @Repository
 public interface TicketRepository extends JpaRepository<ParkingTicket, Long> {
+	
 	ParkingTicket findOneByCarIdAndIsStoppedFalse(Long carId);
 
 }

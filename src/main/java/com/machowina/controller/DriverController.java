@@ -28,10 +28,9 @@ public class DriverController {
 	@PostMapping("/{carId}")
 	ResponseEntity generateTicket(@PathVariable Long carId) {
 		
-		ParkingTicket ticket = ticketService.generateTicketDefaultZone(carId);
-		Long id = ticketService.saveTicket(ticket);
+		Long newTicketId = ticketService.generateTicketDefaultZone(carId);
 		
-		return ResponseEntity.ok(id);
+		return ResponseEntity.ok(newTicketId);
 	}
 
 }

@@ -4,8 +4,16 @@ import com.machowina.model.ParkingTicket;
 
 public interface TicketService {
 
-	ParkingTicket generateTicketDefaultZone(Long carId);
-	ParkingTicket generateTicket(Long carId, Long parkingZoneId);
+	/**creates and saves ticket
+	 * use when there is only one parking zone
+	 * 
+	 * @param carId
+	 * @return newTicketId
+	 */
+	Long generateTicketDefaultZone(Long carId);
+	
+	ParkingTicket createTicket(Long carId, Long parkingZoneId);
+	
 	void checkForDuplicatingTicket(Long carId);
 
 	Long saveTicket(ParkingTicket ticket);

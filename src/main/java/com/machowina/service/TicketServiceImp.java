@@ -3,10 +3,9 @@ package com.machowina.service;
 import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.machowina.exception.EntityNotFoundException;
 import com.machowina.exception.TicketAlreadyRunning;
-import com.machowina.model.Car;
 import com.machowina.model.ParkingTicket;
 import com.machowina.model.ParkingZone;
 import com.machowina.repository.TicketRepository;
@@ -31,19 +30,22 @@ public class TicketServiceImp implements TicketService {
 	}
 
 	@Override
-	public ParkingTicket generateTicketDefaultZone (Long carId) {
-
+	@Transactional
+	public Long generateTicketDefaultZone (Long carId) {
+		
+		checkForDuplicatingTicket(carId);
+		
 		//assuming there is only one zone in database - returns first found zone
 		ParkingZone defaultZone = zoneService.findDeafultZone();
 		
-		return generateTicket(carId, defaultZone.getId());
+		ParkingTicket newTicket = createTicket(carId, defaultZone.getId());
+		
+		return saveTicket(newTicket);
 		
 	}
 	
 	@Override
-	public ParkingTicket generateTicket(Long carId, Long parkingZoneId) {
-
-		checkForDuplicatingTicket(carId);
+	public ParkingTicket createTicket(Long carId, Long parkingZoneId) {
 		
 		ParkingTicket newTicket = new ParkingTicket();
 		
