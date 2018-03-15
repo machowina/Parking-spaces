@@ -6,8 +6,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.machowina.exception.TicketAlreadyRunning;
+import com.machowina.model.Car;
 import com.machowina.model.ParkingTicket;
 import com.machowina.model.ParkingZone;
+import com.machowina.model.User;
 import com.machowina.repository.TicketRepository;
 
 @Service
@@ -47,16 +49,12 @@ public class TicketServiceImp implements TicketService {
 	@Override
 	public ParkingTicket createTicket(Long carId, Long parkingZoneId) {
 		
-		ParkingTicket newTicket = new ParkingTicket();
+		Car car = carService.findById(carId);
+		User driver = userService.findUserForCar(carId);
+		ParkingZone zone = zoneService.findOne(parkingZoneId);
+		LocalDateTime startTime = LocalDateTime.now();
 		
-		newTicket.setCar(carService.findById(carId));
-		
-		newTicket.setDriver(userService.findUserForCar(carId));
-		newTicket.setParkingZone(zoneService.findOne(parkingZoneId));
-		
-		newTicket.setStartTime(LocalDateTime.now());
-		newTicket.setPaid(false);
-		newTicket.setStopped(false);
+		ParkingTicket newTicket = new ParkingTicket(startTime, zone, car, driver);
 		
 		return newTicket;
 		
@@ -72,10 +70,13 @@ public class TicketServiceImp implements TicketService {
 	
 
 	@Override
+	@Transactional
 	public Long saveTicket(ParkingTicket ticket) {
-		ticketRepository.save(ticket);
-		return ticket.getId();
+		ParkingTicket savedTicket = ticketRepository.save(ticket);
+		return savedTicket.getId();
 	}
+	
+	
 	
 	
 

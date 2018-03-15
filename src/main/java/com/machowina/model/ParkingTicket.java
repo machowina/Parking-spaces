@@ -11,9 +11,19 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
-import lombok.Data;
+import org.springframework.beans.factory.annotation.Required;
 
-@Data
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter 
+@Setter
+@EqualsAndHashCode
+@ToString
 @Entity
 public class ParkingTicket {
 	
@@ -21,6 +31,7 @@ public class ParkingTicket {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 	
+	@NotNull
 	private LocalDateTime startTime;
 	private LocalDateTime stopTime;
 	
@@ -43,5 +54,15 @@ public class ParkingTicket {
 	
 	private boolean isStopped;
 	private boolean isPaid;
+	
+	public ParkingTicket(LocalDateTime startTime, ParkingZone parkingZone, Car car, User driver) {
+		super();
+		this.startTime = startTime;
+		this.parkingZone = parkingZone;
+		this.car = car;
+		this.driver = driver;
+	}
+	
+	
 	
 }	

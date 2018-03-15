@@ -17,8 +17,15 @@ import javax.persistence.OneToMany;
 import org.hibernate.validator.constraints.NotBlank;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Getter 
+@Setter
+@EqualsAndHashCode
+@ToString
 @Entity
 public class User {
 	
@@ -40,7 +47,13 @@ public class User {
 	private Set<Car> cars;
 	
 	private String driverType;
-	
+
+	public User(String username, String password, String driverType) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.driverType = driverType;
+	}
 	
 
 }

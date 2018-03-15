@@ -1,5 +1,6 @@
 package com.machowina.model;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -10,9 +11,18 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
-import lombok.Data;
+import org.hibernate.validator.constraints.NotBlank;
 
-@Data
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter 
+@Setter
+@EqualsAndHashCode
+@ToString
 @Entity
 public class ParkingZone {
 	
@@ -20,8 +30,10 @@ public class ParkingZone {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 	
+	@NotBlank
 	private String city;
 
+	@NotBlank
 	private String name;
 	
 	@OneToMany(cascade = CascadeType.ALL)
@@ -34,4 +46,12 @@ public class ParkingZone {
 	
 	private Long slots;
 
+	
+	public ParkingZone(String city, String name) {
+		super();
+		this.city = city;
+		this.name = name;
+	}
+
+	
 }
