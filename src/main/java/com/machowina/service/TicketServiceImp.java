@@ -1,6 +1,7 @@
 package com.machowina.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +36,7 @@ public class TicketServiceImp implements TicketService {
 
 	@Override
 	@Transactional
-	public Long generateTicketDefaultZone (Long carId) {
+	public Long generateTicketDefaultZone(Long carId) {
 		
 		checkForDuplicatingTicket(carId);
 		
@@ -102,7 +103,23 @@ public class TicketServiceImp implements TicketService {
 			return ticket;
 		}
 	}
+
 	
+	@Override
+	public boolean checkForValidTicketAnyZone(String carLicense) {
+		List <ParkingTicket> validTickets = ticketRepository
+				.findByCarLicenseAndIsStoppedFalse(carLicense);
+		
+		return (!validTickets.isEmpty());
+	}
+
+	@Override
+	public boolean checkForValidTicket(String carLicense, Long parkingZoneId) {
+		List <ParkingTicket> validTickets = ticketRepository
+				.findByCarLicenseAndParkingZoneIdAndIsStoppedFalse(carLicense, parkingZoneId);
+		
+		return (!validTickets.isEmpty());
+	}
 	
 	
 	

@@ -1,6 +1,5 @@
 package com.machowina.service;
 
-import com.machowina.model.Car;
 import com.machowina.model.ParkingTicket;
 
 public interface TicketService {
@@ -22,5 +21,9 @@ public interface TicketService {
 	void stopTicket(Long ticketId);
 	
 	ParkingTicket findById(Long ticketId);
+
+	boolean checkForValidTicket(String carLicense, Long parkingZoneId);
+
+	boolean checkForValidTicketAnyZone(String carLicense);
 
 }
