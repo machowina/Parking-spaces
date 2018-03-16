@@ -33,18 +33,17 @@ public class TicketServiceTest {
 	@Mock
 	private TicketRepository ticketRepository;
 	
-	
-	Car car;
-	User driver;
-	ParkingZone zone;
+	private Car car;
+	private User driver;
+	private ParkingZone zone;
 
 	@Before
 	public void setUp() throws Exception {
 		
 		ticketService = new TicketServiceImp(carService, zoneService, ticketRepository, userService);
 	
-		car = new Car("WI99021");
 		driver = new User("kowalski","pass","regular");
+		car = new Car("WI99021", driver);
 		zone = new ParkingZone("Warszawa","Strefa płatnego parkowania");
 	}
 	
@@ -55,6 +54,8 @@ public class TicketServiceTest {
 		//given
 		ParkingTicket ticket  = new ParkingTicket(LocalDateTime.now(), zone, car, driver);
 		Mockito.when(ticketRepository.findOne(1l)).thenReturn(ticket);
+		Mockito.when(ticketRepository.save(ticket)).thenReturn(ticket);
+		
 		//when
 		ticketService.stopTicket(1l);
 		//then

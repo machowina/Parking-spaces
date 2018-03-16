@@ -8,15 +8,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -41,10 +36,6 @@ public class User {
 	
 	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
 	private Set<Role> roles;
-	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "driver_id")
-	private Set<Car> cars;
 	
 	private String driverType;
 

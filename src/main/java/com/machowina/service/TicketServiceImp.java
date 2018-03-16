@@ -87,6 +87,7 @@ public class TicketServiceImp implements TicketService {
 		if (!ticket.isStopped()) {
 			ticket.setStopTime(LocalDateTime.now());
 			ticket.setStopped(true);
+			saveTicket(ticket);
 		} else {
 			throw new TicketAlreadyStopped();
 		}
