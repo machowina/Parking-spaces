@@ -5,7 +5,9 @@ import java.time.LocalDateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.machowina.exception.EntityNotFoundException;
 import com.machowina.exception.TicketAlreadyRunning;
+import com.machowina.exception.TicketAlreadyStopped;
 import com.machowina.model.Car;
 import com.machowina.model.ParkingTicket;
 import com.machowina.model.ParkingZone;
@@ -46,6 +48,7 @@ public class TicketServiceImp implements TicketService {
 		
 	}
 	
+
 	@Override
 	public ParkingTicket createTicket(Long carId, Long parkingZoneId) {
 		
@@ -74,6 +77,30 @@ public class TicketServiceImp implements TicketService {
 	public Long saveTicket(ParkingTicket ticket) {
 		ParkingTicket savedTicket = ticketRepository.save(ticket);
 		return savedTicket.getId();
+	}
+
+	@Override
+	@Transactional
+	public void stopTicket(Long ticketId) {
+		ParkingTicket ticket = findById(ticketId);
+		if (!ticket.isStopped()) {
+			ticket.setStopTime(LocalDateTime.now());
+			ticket.setStopped(true);
+		} else {
+			throw new TicketAlreadyStopped();
+		}
+	
+	
+	}
+
+	@Override
+	public ParkingTicket findById(Long ticketId) {
+		ParkingTicket ticket = ticketRepository.findOne(ticketId);
+		if (ticket == null) {
+			throw new EntityNotFoundException("There is no ticket with this ID");
+		} else {
+			return ticket;
+		}
 	}
 	
 	

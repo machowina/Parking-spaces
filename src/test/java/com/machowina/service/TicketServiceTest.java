@@ -1,7 +1,5 @@
 package com.machowina.service;
 
-import static org.junit.Assert.fail;
-
 import java.time.LocalDateTime;
 
 import org.junit.Assert;
@@ -14,6 +12,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import com.machowina.exception.EntityNotFoundException;
 import com.machowina.exception.TicketAlreadyRunning;
+import com.machowina.exception.TicketAlreadyStopped;
 import com.machowina.model.Car;
 import com.machowina.model.ParkingTicket;
 import com.machowina.model.ParkingZone;
@@ -51,7 +50,50 @@ public class TicketServiceTest {
 	
 	}
 	
+	@Test
+	public void testStopTicket() {
+		//given
+		ParkingTicket ticket  = new ParkingTicket(LocalDateTime.now(), zone, car, driver);
+		Mockito.when(ticketRepository.findOne(1l)).thenReturn(ticket);
+		//when
+		ticketService.stopTicket(1l);
+		//then
+		Assert.assertTrue(ticket.isStopped());
+		Assert.assertNotNull(ticket.getStopTime());
+	}
 	
+	@Test(expected = TicketAlreadyStopped.class)
+	public void testStopTicket_already_stopped() {
+		//given
+		ParkingTicket ticket  = new ParkingTicket(LocalDateTime.now(), zone, car, driver);
+		ticket.setStopped(true);
+		Mockito.when(ticketRepository.findOne(1l)).thenReturn(ticket);
+		//when
+		ticketService.stopTicket(1l);
+		//then catch exception
+	}
+	
+	@Test
+	public void testFindById() {
+		//given
+		ParkingTicket ticket  = new ParkingTicket(LocalDateTime.now(), zone, car, driver);
+		Mockito.when(ticketRepository.findOne(1l)).thenReturn(ticket);
+		//when
+		ParkingTicket foundTicket = ticketService.findById(1l);
+		//then
+		Assert.assertEquals(car, foundTicket.getCar());
+		Assert.assertEquals(driver, foundTicket.getDriver());
+		Assert.assertEquals(zone, foundTicket.getParkingZone());
+	}
+	
+	@Test(expected = EntityNotFoundException.class)
+	public void testFindById_not_found() {
+		//given
+		Mockito.when(ticketRepository.findOne(1l)).thenReturn(null);
+		//when
+		ParkingTicket foundTicket = ticketService.findById(1l);
+		//then catch exception
+	}
 	
 	@Test
 	public void testCreateTicket() {
@@ -65,12 +107,13 @@ public class TicketServiceTest {
 		Assert.assertEquals(car, newTicket.getCar());
 		Assert.assertEquals(driver, newTicket.getDriver());
 		Assert.assertEquals(zone, newTicket.getParkingZone());
-		Assert.assertTrue(LocalDateTime.now().isAfter(newTicket.getStartTime()));
+		Assert.assertTrue(LocalDateTime.now().plusSeconds(1l).isAfter(newTicket.getStartTime()));
 		Assert.assertEquals(LocalDateTime.now().getMinute(), newTicket.getStartTime().getMinute());
 		Assert.assertFalse(newTicket.isStopped());
 		Assert.assertFalse(newTicket.isPaid());
 		Assert.assertNull(newTicket.getStopTime());
 		
+
 	}
 	
 	@Test(expected = EntityNotFoundException.class)

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,15 +23,22 @@ public class DriverController {
 		super();
 		this.ticketService = ticketService;
 	}
+	
 
-
-	@PostMapping("/{carId}")
-	@ResponseStatus(HttpStatus.OK)
+	@PostMapping("generateTicketForCar/{carId}")
+	@ResponseStatus(HttpStatus.CREATED)
 	public Long generateTicket(@PathVariable Long carId) {
 		
 		Long newTicketId = ticketService.generateTicketDefaultZone(carId);
 		
 		return newTicketId;
+	}
+	
+	@PutMapping("stopTicket/{ticketId}")
+	@ResponseStatus(HttpStatus.OK)
+	public void stopTicketTime(@PathVariable Long ticketId) {
+		
+		ticketService.stopTicket(ticketId);
 	}
 
 }

@@ -29,4 +29,12 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return request.getRequestURL().toString() + " - Ticket already running. Last ticket for this car was not stopped.";
     }
 
+	@ExceptionHandler(TicketAlreadyStopped.class)
+    @ResponseStatus(value=HttpStatus.TOO_MANY_REQUESTS)
+    @ResponseBody
+    public String handleTicketAlreadyStopped(HttpServletRequest request, TicketAlreadyStopped ex) {
+        
+        return request.getRequestURL().toString() + " - Ticket was already stopped.";
+    }
+	
 }
