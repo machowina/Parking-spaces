@@ -45,7 +45,7 @@ public class TicketServiceImp implements TicketService {
 		ParkingTicket newTicket = createTicket(carId, defaultZone.getId());
 		
 		return saveTicket(newTicket);
-		
+	
 	}
 	
 

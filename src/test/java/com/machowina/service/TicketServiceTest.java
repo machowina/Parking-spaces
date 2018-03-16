@@ -46,9 +46,9 @@ public class TicketServiceTest {
 		car = new Car("WI99021");
 		driver = new User("kowalski","pass","regular");
 		zone = new ParkingZone("Warszawa","Strefa płatnego parkowania");
-		
-	
 	}
+	
+	
 	
 	@Test
 	public void testStopTicket() {
