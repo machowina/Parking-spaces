@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.machowina.service.TicketService;
 
 @RestController
-@RequestMapping("/operator")
+@RequestMapping("/operators")
 public class OperatorController {
 	
 	private final TicketService ticketService;
@@ -22,7 +22,7 @@ public class OperatorController {
 		this.ticketService = ticketService;
 	}
 	
-	@GetMapping("checkForTicket/{carLicense}")
+	@GetMapping("/checkForTicket/{carLicense}")
 	@ResponseStatus(HttpStatus.OK)
 	public boolean checkForTicket(@PathVariable String carLicense) {
 		

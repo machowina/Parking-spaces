@@ -28,7 +28,7 @@ public class DriverController {
 	}
 	
 
-	@PostMapping("tickets/generateForCar/{carId}")
+	@PostMapping("/tickets/generateForCar/{carId}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Long generateTicket(@PathVariable Long carId) {
 		
@@ -37,14 +37,14 @@ public class DriverController {
 		return newTicketId;
 	}
 	
-	@PatchMapping("tickets/{ticketId}/stop}")
+	@PatchMapping("/tickets/{ticketId}/stop}")
 	@ResponseStatus(HttpStatus.OK)
 	public void stopTicketTime(@PathVariable Long ticketId) {
 		
 		ticketService.stopTicket(ticketId);
 	}
 	
-	@PatchMapping("tickets/{ticketId}/calculateFee")
+	@PatchMapping("/tickets/{ticketId}/calculateFee")
 	@ResponseStatus(HttpStatus.OK)
 	public BigDecimal calculateTicketFee(@PathVariable Long ticketId) {
 		

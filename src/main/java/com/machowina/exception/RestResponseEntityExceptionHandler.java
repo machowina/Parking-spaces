@@ -1,5 +1,7 @@
 package com.machowina.exception;
 
+import java.time.format.DateTimeParseException;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
@@ -45,4 +47,12 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return request.getRequestURL().toString() + " - You have to stop the ticket first.";
     }
 	
+	
+	@ExceptionHandler(DateTimeParseException.class)
+    @ResponseStatus(value=HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public String handleDateTimeParseException(HttpServletRequest request, DateTimeParseException ex) {
+        
+        return request.getRequestURL().toString() + " - Date must have yyyy-MM-dd format.";
+    }
 }

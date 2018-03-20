@@ -2,6 +2,7 @@ package com.machowina.service;
 
 import java.math.BigDecimal;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -185,6 +186,17 @@ public class TicketServiceImp implements TicketService {
 		fee = fee.add(incompleteHourFee);
 		fee = fee.setScale(2, BigDecimal.ROUND_HALF_DOWN);
 		return fee;
+	}
+
+	@Override
+	public List<ParkingTicket> findAllForDayAndZone(LocalDate incomeDay, ParkingZone zone) {
+		LocalDateTime startOfDay = incomeDay.atStartOfDay();
+		LocalDateTime endOfDay = incomeDay.plusDays(1l).atStartOfDay().minusNanos(1l);
+		
+		List<ParkingTicket> ticketList = ticketRepository
+				.findAllByParkingZoneAndStopTimeBetween(zone, startOfDay, endOfDay);
+		
+		return ticketList;
 	}
 	
 	

@@ -2,9 +2,12 @@ package com.machowina.service;
 
 import java.math.BigDecimal;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.util.List;
 
 import com.machowina.model.ParkingRates;
 import com.machowina.model.ParkingTicket;
+import com.machowina.model.ParkingZone;
 
 public interface TicketService {
 
@@ -33,5 +36,7 @@ public interface TicketService {
 	BigDecimal calculateTicketFee(Long ticketId);
 
 	BigDecimal calculateFeeForGivenDuration(Duration parkingTime, ParkingRates rates);
+
+	List<ParkingTicket> findAllForDayAndZone(LocalDate incomeDay, ParkingZone zone);
 
 }
