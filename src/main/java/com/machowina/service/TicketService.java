@@ -11,13 +11,7 @@ import com.machowina.model.ParkingZone;
 
 public interface TicketService {
 
-	/**creates and saves ticket
-	 * use when there is only one parking zone
-	 * 
-	 * @param carId
-	 * @return newTicketId
-	 */
-	Long generateTicketDefaultZone(Long carId);
+	Long generateNewTicket(Long carId, Long zoneId);
 	
 	ParkingTicket createTicket(Long carId, Long parkingZoneId);
 	
@@ -31,12 +25,12 @@ public interface TicketService {
 
 	boolean checkForValidTicket(String carLicense, Long parkingZoneId);
 
-	boolean checkForValidTicketAnyZone(String carLicense);
-
 	BigDecimal calculateTicketFee(Long ticketId);
 
 	BigDecimal calculateFeeForGivenDuration(Duration parkingTime, ParkingRates rates);
 
 	List<ParkingTicket> findAllForDayAndZone(LocalDate incomeDay, ParkingZone zone);
+
+	
 
 }

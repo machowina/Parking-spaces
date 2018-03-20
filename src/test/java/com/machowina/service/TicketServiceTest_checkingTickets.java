@@ -50,50 +50,48 @@ public class TicketServiceTest_checkingTickets {
 		car1 = new Car("WI99021", driver1);
 		car2 = new Car("WI99021", driver2);
 		zone = new ParkingZone("Warszawa", "Strefa płatnego parkowania");
+		zone.setId(1l);
 
 	}
 
 	@Test
-	public void testCheckForValidTicketAnyZone_with_valid_ticket() {
+	public void testCheckForValidTicket_with_valid_ticket() {
 		// given
 		ParkingTicket ticket = new ParkingTicket(LocalDateTime.now(), zone, car1, driver1);
-		Mockito.when(ticketRepository.findByCarLicenseAndIsStoppedFalse("WI99021"))
+		Mockito.when(ticketRepository.findByCarLicenseAndParkingZoneIdAndIsStoppedFalse("WI99021", 1l))
 		.thenReturn(Arrays.asList(ticket));
 		// when
-		boolean thereIsAValidTicket = ticketService.checkForValidTicketAnyZone("WI99021");
+		boolean thereIsAValidTicket = ticketService.checkForValidTicket("WI99021", zone.getId());
 		// then
 		Assert.assertTrue(thereIsAValidTicket);
 
 	}
 	
 	@Test
-	public void testCheckForValidTicketAnyZone_with_two_tickets() {
+	public void testCheckForValidTicket_with_two_tickets() {
 		// given
 		ParkingTicket ticket1 = new ParkingTicket(LocalDateTime.now(), zone, car1, driver1);
 		ParkingTicket ticket2 = new ParkingTicket(LocalDateTime.now(), zone, car2, driver2);
-		Mockito.when(ticketRepository.findByCarLicenseAndIsStoppedFalse("WI99021"))
+		Mockito.when(ticketRepository.findByCarLicenseAndParkingZoneIdAndIsStoppedFalse("WI99021", 1l))
 		.thenReturn(Arrays.asList(ticket1, ticket2));
 		// when
-		boolean thereIsAValidTicket = ticketService.checkForValidTicketAnyZone("WI99021");
+		boolean thereIsAValidTicket = ticketService.checkForValidTicket("WI99021", zone.getId());
 		// then
 		Assert.assertTrue(thereIsAValidTicket);
 	}
 	
 	@Test
-	public void testCheckForValidTicketAnyZone_with_no_ticket() {
+	public void testCheckForValidTicket_with_no_ticket() {
 		// given
 		List <ParkingTicket> emptyList = new ArrayList<>();
-		Mockito.when(ticketRepository.findByCarLicenseAndIsStoppedFalse("WI99021"))
+		Mockito.when(ticketRepository.findByCarLicenseAndParkingZoneIdAndIsStoppedFalse("WI99021", 1l))
 		.thenReturn(emptyList);
 		// when
-		boolean thereIsAValidTicket = ticketService.checkForValidTicketAnyZone("WI99021");
+		boolean thereIsAValidTicket = ticketService.checkForValidTicket("WI99021", zone.getId());
 		// then
 		Assert.assertFalse(thereIsAValidTicket);
 	}
 
-	@Test
-	public void testCheckForValidTicket() {
-
-	}
+	
 
 }

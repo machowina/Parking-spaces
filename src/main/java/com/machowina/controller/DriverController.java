@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,11 +27,11 @@ public class DriverController {
 	}
 	
 
-	@PostMapping("/tickets/generateForCar/{carId}")
+	@PostMapping("/cars/{carId}/zones/{zoneId}/newTicket")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Long generateTicket(@PathVariable Long carId) {
+	public Long generateTicket(@PathVariable Long carId, @PathVariable Long zoneId) {
 		
-		Long newTicketId = ticketService.generateTicketDefaultZone(carId);
+		Long newTicketId = ticketService.generateNewTicket(carId, zoneId);
 		
 		return newTicketId;
 	}

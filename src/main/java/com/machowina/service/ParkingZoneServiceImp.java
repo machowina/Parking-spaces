@@ -28,15 +28,6 @@ public class ParkingZoneServiceImp implements ParkingZoneService {
 	}
 	
 
-	@Override
-	public ParkingZone findDeafultZone() {
-		ParkingZone defaultZone = zoneRepository.findFirstBy();
-		if (defaultZone == null) {
-			throw new EntityNotFoundException("There is no parking zone available");
-		} else {
-			return defaultZone;
-		}
-	}
 
 	
 

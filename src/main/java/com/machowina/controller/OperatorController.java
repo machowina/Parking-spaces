@@ -22,11 +22,11 @@ public class OperatorController {
 		this.ticketService = ticketService;
 	}
 	
-	@GetMapping("/checkForTicket/{carLicense}")
+	@GetMapping("/zones/{zoneId}/checkTicket/{carLicense}")
 	@ResponseStatus(HttpStatus.OK)
-	public boolean checkForTicket(@PathVariable String carLicense) {
+	public boolean checkForTicket(@PathVariable Long zoneId, @PathVariable String carLicense) {
 		
-		return ticketService.checkForValidTicketAnyZone(carLicense);
+		return ticketService.checkForValidTicket(carLicense, zoneId);
 	}
 	
 

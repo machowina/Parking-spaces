@@ -44,14 +44,11 @@ public class TicketServiceImp implements TicketService {
 
 	@Override
 	@Transactional
-	public Long generateTicketDefaultZone(Long carId) {
+	public Long generateNewTicket(Long carId, Long zoneId) {
 		
 		checkForDuplicatingTicket(carId);
 		
-		//assuming there is only one zone in database - returns first found zone
-		ParkingZone defaultZone = zoneService.findDeafultZone();
-		
-		ParkingTicket newTicket = createTicket(carId, defaultZone.getId());
+		ParkingTicket newTicket = createTicket(carId, zoneId);
 		
 		return saveTicket(newTicket);
 	
@@ -59,11 +56,11 @@ public class TicketServiceImp implements TicketService {
 	
 
 	@Override
-	public ParkingTicket createTicket(Long carId, Long parkingZoneId) {
+	public ParkingTicket createTicket(Long carId, Long zoneId) {
 		
 		Car car = carService.findById(carId);
 		User driver = userService.findUserForCar(carId);
-		ParkingZone zone = zoneService.findOne(parkingZoneId);
+		ParkingZone zone = zoneService.findOne(zoneId);
 		LocalDateTime startTime = LocalDateTime.now();
 		
 		ParkingTicket newTicket = new ParkingTicket(startTime, zone, car, driver);
@@ -114,13 +111,7 @@ public class TicketServiceImp implements TicketService {
 	}
 
 	
-	@Override
-	public boolean checkForValidTicketAnyZone(String carLicense) {
-		List <ParkingTicket> validTickets = ticketRepository
-				.findByCarLicenseAndIsStoppedFalse(carLicense);
-		
-		return (!validTickets.isEmpty());
-	}
+	
 
 	@Override
 	public boolean checkForValidTicket(String carLicense, Long parkingZoneId) {
