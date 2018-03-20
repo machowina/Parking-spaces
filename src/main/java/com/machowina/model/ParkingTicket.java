@@ -1,5 +1,6 @@
 package com.machowina.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import javax.money.MonetaryAmount;
@@ -50,7 +51,7 @@ public class ParkingTicket {
 	@NotNull
 	private User driver;
 
-	private Long feeInPenniesPLN;
+	private BigDecimal fee;
 	
 	private boolean isStopped;
 	private boolean isPaid;

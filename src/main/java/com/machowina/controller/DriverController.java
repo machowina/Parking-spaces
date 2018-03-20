@@ -1,7 +1,10 @@
 package com.machowina.controller;
 
+import java.math.BigDecimal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -12,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.machowina.service.TicketService;
 
 @RestController
-@RequestMapping("/driver")
+@RequestMapping("/drivers")
 public class DriverController {
 	
 	
@@ -25,7 +28,7 @@ public class DriverController {
 	}
 	
 
-	@PostMapping("generateTicketForCar/{carId}")
+	@PostMapping("tickets/generateForCar/{carId}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Long generateTicket(@PathVariable Long carId) {
 		
@@ -34,11 +37,18 @@ public class DriverController {
 		return newTicketId;
 	}
 	
-	@PutMapping("stopTicket/{ticketId}")
+	@PatchMapping("tickets/{ticketId}/stop}")
 	@ResponseStatus(HttpStatus.OK)
 	public void stopTicketTime(@PathVariable Long ticketId) {
 		
 		ticketService.stopTicket(ticketId);
+	}
+	
+	@PatchMapping("tickets/{ticketId}/calculateFee")
+	@ResponseStatus(HttpStatus.OK)
+	public BigDecimal calculateTicketFee(@PathVariable Long ticketId) {
+		
+		return ticketService.calculateTicketFee(ticketId);
 	}
 
 }

@@ -1,5 +1,9 @@
 package com.machowina.service;
 
+import java.math.BigDecimal;
+import java.time.Duration;
+
+import com.machowina.model.ParkingRates;
 import com.machowina.model.ParkingTicket;
 
 public interface TicketService {
@@ -25,5 +29,9 @@ public interface TicketService {
 	boolean checkForValidTicket(String carLicense, Long parkingZoneId);
 
 	boolean checkForValidTicketAnyZone(String carLicense);
+
+	BigDecimal calculateTicketFee(Long ticketId);
+
+	BigDecimal calculateFeeForGivenDuration(Duration parkingTime, ParkingRates rates);
 
 }

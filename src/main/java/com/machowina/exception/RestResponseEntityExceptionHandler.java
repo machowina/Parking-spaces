@@ -37,4 +37,12 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return request.getRequestURL().toString() + " - Ticket was already stopped.";
     }
 	
+	@ExceptionHandler(TicketNotStoppedException.class)
+    @ResponseStatus(value=HttpStatus.CONFLICT)
+    @ResponseBody
+    public String handleTicketNotStoppedException(HttpServletRequest request, TicketNotStoppedException ex) {
+        
+        return request.getRequestURL().toString() + " - You have to stop the ticket first.";
+    }
+	
 }

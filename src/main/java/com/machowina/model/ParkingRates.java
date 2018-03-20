@@ -1,5 +1,7 @@
 package com.machowina.model;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -7,9 +9,15 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Getter 
+@Setter
+@EqualsAndHashCode
+@ToString
 @Entity
 public class ParkingRates {
 
@@ -23,9 +31,20 @@ public class ParkingRates {
 	
 	private String driverType;
 	
-	private Long firstHourCostInPenniesPLN;
+	private BigDecimal firstHourCost;
 	
-	private Long secondHourCostInPenniesPLN;
+	private BigDecimal secondHourCost;
 	
-	private Double nextHourRate;
+	private  BigDecimal nextHourRate;
+
+	public ParkingRates(ParkingZone parkingZone, String driverType, BigDecimal firstHourCost, BigDecimal secondHourCost,
+			BigDecimal nextHourRate) {
+		super();
+		this.parkingZone = parkingZone;
+		this.driverType = driverType;
+		this.firstHourCost = firstHourCost;
+		this.secondHourCost = secondHourCost;
+		this.nextHourRate = nextHourRate;
+	}
+	
 }
