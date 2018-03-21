@@ -1,0 +1,121 @@
+﻿Parking spaces app - założenia projektowe
+
+Użytkownicy aplikacji (encja User) podzieleni są na trzy role: driver, operator i owner. Role powinny odpowiadać dostępowi do poszczególnych części aplikacji, jednak na razie nie zaimplenetowałam żadnych zabazpieczeń ani uwierzytelniania tokenami, ponieważ nie wiem o tym za dużo – używałam Spring Security tylko w przypadku logowania przez formularz a nie na REST api
+
+Driver, operator i owner mają różne endpointy i zakładam użycie tutaj trzech różnych klas DTO do wyświetlania i zmiany tych userów.
+
+Każdy Driver może mieć kilka samochodów (encja Car). Trzeba mieć dodany samochód aby zacząć parkowanie. Samochód ma rejestrację i opcjonalnie nazwę pozwalającą na wygodniejsze zarządzanie przez użytkownika (np. „samochód teściowej”).
+Rejestracja nie jest unikalna – kilku użytkowników może dodać samochód z taką samą rejestracją – zakładam że często w rodzinie samochody są używane wymiennie i każdy użytkownik chce mieć możliwość płacenia za parkowanie, można też chciać zaparkować wypożyczonym samochodem.
+A gdyby kilku użytkowników odnosiło się do tej samej encji Car to mogliby zablokować sobie wzajemnie rozpoczęcie parkowania.
+
+Unikalne jest id samochodu i na podstawie id zaczynamy nowe parkowanie.
+
+Operator parkingu sprawdza bilety na podstawie rejestracji samochodu i otrzymuje odpowiedź true jeśli jakikolwiek użytkownik rozpoczął parkowanie tym samochodem (również jeśli zrobiło to 2 i więcej).
+
+Dodałam strefy parkowania – być może była to niepotrzebna komplikacja w tym momencie, ale w perspektywie rozwoju aplikacji może wystąpić potrzeba rozszerzenia zasięgu na inne miasta lub zmiana przepisów w mieście – wprowadzenie kilku stref parkowania. Każda strefa ma przypisanych ownerów, operatorów i parking rates – opłaty za parkowanie w danej strefie trzymane w bazie. Jest też liczba miejsc postojowych, mogłaby być przydatna przy różnych statystykach (np. jaki % miejsc jest zajętych w jakich godzinach przez użytkowników aplikacji). Strefa ma miasto i nazwę.
+
+Do parkowania nie jest używany parking meter ale Parking Ticket – wydawało mi się to logiczniejsze. Bilet parkingowy jest tworzony przy rozpoczęciu parkowania – jeśli istnieje, tzn że rozpoczęliśmy parkowanie. Bilet jest aktywny dopóki nie wywołamy stop i nie zmienimy wartości isStopped na true.
+
+Opłatę wyliczamy na podstawie startTime i stopTime oraz odpowiedniego Parking Rates. Podtawową walutą jest PLN. Nie dodałam na razie żadych innych walut, bo wydaje mi się że przeliczanie powinno nastąpić dopiero przy czynności opłacania biletu na podstawie trzymanej w bilecie opłaty w PLN. Inaczej trudno byłoby np. zliczyć dochód z większej ilości biletów.
+
+Właściciel strefy może zliczyć dochód z tej strefy z podanego dnia – biorę pod uwagę bilety które zostały zatrzymane w tym dniu (mogły zostać rozpoczęte przed północą).
+
+
+Projekt API:
+
+POST  
+drivers
+GET 
+drivers
+GET , DELETE, PUT  
+drivers/{id}
+
+POST  
+drivers/{id}/cars
+GET
+drivers/{id}/cars
+GET , DELETE, PUT  
+drivers/{id}/cars/{carId}
+
+POST
+drivers/cars/{carId}/zones/{zoneId}/newTicket
+
+zaimplementowane – rozpoczęcie parkowania
+nie jestem pewna czy to jest dobra ścieżka…
+
+PATCH
+drivers/tickets/{ticketId}/stop
+
+zaimplementowane – koniec parkowania
+(Czy w takich sytuacjach ścieżka powinna raczej wyglądać 
+„drivers/{id}/tickets/{ticketId}/stop”? To wygląda logiczniej ale w zasadzie nie potrzebujemy id drivera?)
+
+PATCH
+drivers/tickets/{ticketId}/calculateFee
+
+zaimplementowane – oblicz opłatę
+(W zasadzie to błąd - obliczanie opłaty powinno się odbyć automatycznie po zastopowaniu biletu, a tu endpoint /checkFee, bo mogą powstać bilety zatrzymane z nieobliczoną opłatą przez które nie można obliczyć dochodu z dnia. Ale już tego nie zmieniam w tej chwili)
+
+PATCH
+drivers/tickets/{ticketId}/pay
+GET
+drivers/{id}/tickets/unpaid
+GET
+drivers/{id}/tickets
+
+POST  
+zones
+GET 
+zones
+GET , DELETE, PUT  
+zones/{id}
+
+POST  
+zones/{id}/rates
+GET 
+zones/{id}/rates
+GET , DELETE, PUT  
+zones/{id}/rates/{ratesId}
+
+
+GET 
+zones/{id}/operators
+GET 
+zones/{id}/owners
+
+POST  
+operators
+GET 
+operators
+GET , DELETE, PUT  
+operators/{id}
+
+GET 
+operators/zones/{zoneId}/checkTicket/{carLicense}
+
+zaimplementowane – sprawdź bilet
+
+POST  
+owners
+GET 
+owners
+GET , DELETE, PUT  
+owners/{id}
+
+GET 
+owners/zones/{zoneId}/income/yyyy-MM-dd/{incomeDate}
+
+zaimplementowane – sprawdź dochód z dnia w foormacie yyyy-MM-dd
+
+GET 
+owners/zones/{zoneId}/income/yyyy-MM/{incomeMonth}
+
+
+
+
+Baza danych na której sobie testowałam jest na amazon aws.
+Jest w niej kilka wartości:
+Zone o id 1,
+Driver zwykły id 1, vip id 4
+Samochody id 1 – WA11111, id 2 – WA22222, id 3 -WA33333
+Kilka ticketów z dnia 21.03
