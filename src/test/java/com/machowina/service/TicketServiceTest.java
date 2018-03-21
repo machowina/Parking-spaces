@@ -29,8 +29,6 @@ public class TicketServiceTest {
 	@Mock
 	private ParkingZoneService zoneService;
 	@Mock
-	private UserService userService;
-	@Mock
 	private TicketRepository ticketRepository;
 	@Mock
 	private ParkingRatesService parkingRatesService;
@@ -42,7 +40,7 @@ public class TicketServiceTest {
 	@Before
 	public void setUp() throws Exception {
 		
-		ticketService = new TicketServiceImp(carService, zoneService, ticketRepository, userService, parkingRatesService);
+		ticketService = new TicketServiceImp(carService, zoneService, ticketRepository, parkingRatesService);
 	
 		driver = new User("kowalski","pass","regular");
 		car = new Car("WI99021", driver);
@@ -102,7 +100,6 @@ public class TicketServiceTest {
 	public void testCreateTicket() {
 		//given
 		Mockito.when(carService.findById(1l)).thenReturn(car);
-		Mockito.when(userService.findUserForCar(1l)).thenReturn(driver);
 		Mockito.when(zoneService.findOne(1l)).thenReturn(zone);
 		//when
 		ParkingTicket newTicket = ticketService.createTicket(1l, 1l);
@@ -123,7 +120,6 @@ public class TicketServiceTest {
 	public void testCreateTicket_with_no_car() {
 		//given
 		Mockito.when(carService.findById(1l)).thenThrow(EntityNotFoundException.class);
-		Mockito.when(userService.findUserForCar(1l)).thenReturn(driver);
 		Mockito.when(zoneService.findOne(1l)).thenReturn(zone);
 		//when
 		ParkingTicket newTicket = ticketService.createTicket(1l, 1l);

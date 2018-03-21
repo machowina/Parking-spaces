@@ -18,14 +18,6 @@ public class UserServiceImp implements UserService {
 		this.userRepository = userRepository;
 	}
 
-	@Override
-	public User findUserForCar(Long carId) {
-		User driver = userRepository.findOneByCarsId(carId);
-		if (driver == null) {
-			throw new EntityNotFoundException("There is no user owning this car");
-		} else {
-			return driver;
-		}
-	}
+	
 
 }

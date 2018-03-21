@@ -31,8 +31,6 @@ public class TicketServiceTest_calculatingFee {
 	@Mock
 	private ParkingZoneService zoneService;
 	@Mock
-	private UserService userService;
-	@Mock
 	private TicketRepository ticketRepository;
 	@Mock
 	private ParkingRatesService parkingRatesService;
@@ -43,7 +41,7 @@ public class TicketServiceTest_calculatingFee {
 	
 	@Before
 	public void setUp() throws Exception {
-		ticketService = new TicketServiceImp(carService, zoneService, ticketRepository, userService, parkingRatesService);
+		ticketService = new TicketServiceImp(carService, zoneService, ticketRepository, parkingRatesService);
 
 		rates = new ParkingRates(zone, "regular", new BigDecimal("1.00"), new BigDecimal("2.00"), new BigDecimal("2.00"));
 		vipRates = new ParkingRates(zone, "vip", BigDecimal.ZERO, new BigDecimal("2.00"), new BigDecimal("1.50"));

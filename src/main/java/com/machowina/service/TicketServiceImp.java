@@ -2,7 +2,6 @@ package com.machowina.service;
 
 import java.math.BigDecimal;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,20 +24,17 @@ public class TicketServiceImp implements TicketService {
 	
 	private final CarService carService;
 	private final ParkingZoneService zoneService;
-	private final UserService userService;
 	private final ParkingRatesService parkingRatesService;
 	
 	private final TicketRepository ticketRepository;
 	
 
 	public TicketServiceImp(CarService carService, ParkingZoneService zoneService,
-			TicketRepository ticketRepository, UserService userService, 
-			ParkingRatesService parkingRatesService) {
+			TicketRepository ticketRepository, ParkingRatesService parkingRatesService) {
 		super();
 		this.carService = carService;
 		this.zoneService = zoneService;
 		this.ticketRepository = ticketRepository;
-		this.userService = userService;
 		this.parkingRatesService = parkingRatesService;
 	}
 
@@ -59,7 +55,7 @@ public class TicketServiceImp implements TicketService {
 	public ParkingTicket createTicket(Long carId, Long zoneId) {
 		
 		Car car = carService.findById(carId);
-		User driver = userService.findUserForCar(carId);
+		User driver = car.getDriver();
 		ParkingZone zone = zoneService.findOne(zoneId);
 		LocalDateTime startTime = LocalDateTime.now();
 		
@@ -179,16 +175,6 @@ public class TicketServiceImp implements TicketService {
 		return fee;
 	}
 
-	@Override
-	public List<ParkingTicket> findAllForDayAndZone(LocalDate incomeDay, ParkingZone zone) {
-		LocalDateTime startOfDay = incomeDay.atStartOfDay();
-		LocalDateTime endOfDay = incomeDay.plusDays(1l).atStartOfDay().minusNanos(1l);
-		
-		List<ParkingTicket> ticketList = ticketRepository
-				.findAllByParkingZoneAndStopTimeBetween(zone, startOfDay, endOfDay);
-		
-		return ticketList;
-	}
 	
 	
 

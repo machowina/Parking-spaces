@@ -17,14 +17,13 @@ import org.springframework.beans.factory.annotation.Required;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter 
-@Setter
-@EqualsAndHashCode
-@ToString
+@Data
+@NoArgsConstructor
 @Entity
 public class ParkingTicket {
 	

@@ -36,7 +36,7 @@ public class DriverController {
 		return newTicketId;
 	}
 	
-	@PatchMapping("/tickets/{ticketId}/stop}")
+	@PatchMapping("/tickets/{ticketId}/stop")
 	@ResponseStatus(HttpStatus.OK)
 	public void stopTicketTime(@PathVariable Long ticketId) {
 		

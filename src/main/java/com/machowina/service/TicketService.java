@@ -29,7 +29,6 @@ public interface TicketService {
 
 	BigDecimal calculateFeeForGivenDuration(Duration parkingTime, ParkingRates rates);
 
-	List<ParkingTicket> findAllForDayAndZone(LocalDate incomeDay, ParkingZone zone);
 
 	
 

@@ -12,15 +12,15 @@ import javax.persistence.OneToMany;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter 
-@Setter
-@EqualsAndHashCode
-@ToString
+@Data
+@NoArgsConstructor
 @Entity
 public class ParkingZone {
 	
@@ -35,11 +35,11 @@ public class ParkingZone {
 	private String name;
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn
+	@JoinColumn(name = "owner_zone_id")
 	private Set<User> owners;
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn
+	@JoinColumn(name = "operator_zone_id")
 	private Set<User> operators;
 	
 	private Long slots;

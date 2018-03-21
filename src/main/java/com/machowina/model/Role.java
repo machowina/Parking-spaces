@@ -9,8 +9,10 @@ import javax.persistence.Id;
 import org.hibernate.validator.constraints.NotBlank;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @Entity
 public class Role {
 

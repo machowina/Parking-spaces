@@ -9,15 +9,15 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter 
-@Setter
-@EqualsAndHashCode
-@ToString
+@Data
+@NoArgsConstructor
 @Entity
 public class ParkingRates {
 

@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -19,6 +20,7 @@ import com.machowina.model.ParkingTicket;
 import com.machowina.model.ParkingZone;
 import com.machowina.model.User;
 import com.machowina.repository.ParkingZoneRepository;
+import com.machowina.repository.TicketRepository;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ParkingZoneServiceTest_checkingIncome {
@@ -26,7 +28,7 @@ public class ParkingZoneServiceTest_checkingIncome {
 	private ParkingZoneService zoneService;
 	
 	@Mock
-	private TicketService ticketService;
+	private TicketRepository ticketRepository;
 	@Mock
 	private ParkingZoneRepository zoneRepository;
 	
@@ -38,7 +40,7 @@ public class ParkingZoneServiceTest_checkingIncome {
 	
 	@Before
 	public void setUp() throws Exception {
-		zoneService = new ParkingZoneServiceImp(zoneRepository, ticketService);
+		zoneService = new ParkingZoneServiceImp(zoneRepository, ticketRepository);
 		zone = new ParkingZone("Warszawa", "Strefa płatnego parkowania");
 		driver = new User("kowalski", "pass", "regular");
 		car = new Car("WI99021", driver);
@@ -55,8 +57,10 @@ public class ParkingZoneServiceTest_checkingIncome {
 		ticket2.setStopTime(LocalDateTime.of(2018, 03, 12, 14, 45));
 		ticket1.setFee(new BigDecimal("1.00"));
 		ticket2.setFee(new BigDecimal("3.00"));
-		Mockito.when(ticketService.findAllForDayAndZone(LocalDate.of(2018, 03, 12),zone))
-		.thenReturn(Arrays.asList(ticket1, ticket2));
+		List<ParkingTicket> ticketList = Arrays.asList(ticket1, ticket2);
+		Mockito.when(ticketRepository.findAllByParkingZoneAndStopTimeBetween
+				(zone, LocalDateTime.of(2018, 03, 12, 0, 0), LocalDateTime.of(2018, 03, 13, 0, 0).minusNanos(1l)))
+				.thenReturn(ticketList);
 		//when
 		BigDecimal income = zoneService.checkIncomeForDay("2018-03-12", zone);
 		//then

@@ -29,8 +29,6 @@ public class TicketServiceTest_checkingTickets {
 	@Mock
 	private ParkingZoneService zoneService;
 	@Mock
-	private UserService userService;
-	@Mock
 	private TicketRepository ticketRepository;
 	@Mock
 	private ParkingRatesService parkingRatesService;
@@ -43,7 +41,7 @@ public class TicketServiceTest_checkingTickets {
 
 	@Before
 	public void setUp() throws Exception {
-		ticketService = new TicketServiceImp(carService, zoneService, ticketRepository, userService, parkingRatesService);
+		ticketService = new TicketServiceImp(carService, zoneService, ticketRepository, parkingRatesService);
 
 		driver1 = new User("kowalski", "pass", "regular");
 		driver2 = new User("nowak", "pass", "regular");

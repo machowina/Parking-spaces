@@ -27,7 +27,7 @@ public class OwnerController {
 
 
 
-	@GetMapping("/zones/{zoneId}/income/day/{yyyy-MM-dd}")
+	@GetMapping("/zones/{zoneId}/income/yyyy-MM-dd/{incomeDate}")
 	@ResponseStatus(HttpStatus.OK)
 	public BigDecimal checkIncomeFromDay(@PathVariable Long zoneId, @PathVariable String incomeDate) {
 		

@@ -1,26 +1,22 @@
 package com.machowina.model;
 
-import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter 
-@Setter
-@EqualsAndHashCode
-@ToString
+@Data
+@NoArgsConstructor
 @Entity
 public class User {
 	
@@ -34,8 +30,8 @@ public class User {
 	@NotBlank
 	private String password;
 	
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
-	private Set<Role> roles;
+	@ManyToOne
+	private Role role;
 	
 	private String driverType;
 
